@@ -1,0 +1,8 @@
+{
+  "name": "restaurant_chatbot",
+  "version": "1.0.0",
+  "description": "AltSchool's 3rd semester exam. The objective is to create a restaurant chatbot that will enable customers to place orders of their choice, without human intervention.",
+  "main": "index.js",
+  "author": "Emmanuel Eni",
+  "license": "MIT"
+}
