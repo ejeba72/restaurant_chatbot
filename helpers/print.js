@@ -13,4 +13,4 @@ const stream = pretty()
 
 const print = pino(options, stream);
 
-module.exports =  print
+module.exports = { print }
