@@ -2,6 +2,7 @@ const { config } = require('dotenv');
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
+const { welcomeMsg, chatbotLogic } = require('./chatbot_logic');
 const { print } = require('./helpers/print');
 
 config();
@@ -21,11 +22,10 @@ io.on('connection', (socket) => {
 
   print.info('update: a user has just connected');
 
-  io.emit('welcome msg', 'Hey there, Welcome to Mama Ebo Pepper Rice')
+  io.emit('welcome msg', welcomeMsg)
 
   socket.on('client to server', (msg) => {
-    print.info('message: ' + msg);
-    io.emit('server to client', msg); // io.emit('eventName', data);
+   chatbotLogic(msg) 
   });
 
   socket.on('disconnect', () => {
@@ -36,6 +36,7 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, () => {
   print.info('server is attentively listening @ 127.0.0.1:' + PORT)
+  // chatbotLogic();
 })
 
 
