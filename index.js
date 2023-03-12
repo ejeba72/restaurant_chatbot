@@ -11,21 +11,21 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 })
+
 
 io.on('connection', (socket) => {
 
   print.info('update: a user has just connected');
 
-  // socket.on('chat message', (msg) => {
-  //   print.info('message: ' + msg);
-  // })
+  io.emit('welcome msg', 'Hey there, Welcome to Mama Ebo Pepper Rice')
 
-  socket.on('chat message', (msg) => {
+  socket.on('client to server', (msg) => {
     print.info('message: ' + msg);
-    io.emit('chat message', msg);
+    io.emit('server to client', msg); // io.emit('eventName', data);
   });
 
   socket.on('disconnect', () => {
