@@ -2,7 +2,7 @@ const { config } = require('dotenv');
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
-const { welcomeMsg, chatbotLogic } = require('./chatbot_logic');
+const { welcomeMsg, restaurantMenu } = require('./messages');
 const { print } = require('./helpers/print');
 
 config();
@@ -20,16 +20,24 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
 
-  print.info('update: a user has just connected');
+  print.info(`user with id, ${socket.id}, has been connected`);
 
-  io.emit('welcome msg', welcomeMsg)
-
-  socket.on('client to server', (msg) => {
-   chatbotLogic(msg) 
-  });
+  io.emit('welcome msg', welcomeMsg);
 
   socket.on('disconnect', () => {
-    print.info('update: a user has just disconnected');
+    print.info(`user with id, ${socket.id}, has been disconnected`);
+  })
+
+  socket.on('client to server', (msg) => {
+    print.info(`client message: ${msg}`);
+    // io.emit('server to client', msg); // io.emit('eventName', data);
+    if (1) {
+      const customerOrder = [];
+      io.emit('server to client', restaurantMenu)
+    }
+    if (2) {
+      io.emit()
+    }
   })
 
 });
@@ -38,6 +46,8 @@ server.listen(PORT, () => {
   print.info('server is attentively listening @ 127.0.0.1:' + PORT)
   // chatbotLogic();
 })
+
+
 
 
 
