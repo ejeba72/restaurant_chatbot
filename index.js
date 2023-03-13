@@ -1,9 +1,16 @@
+const { print } = require('./helpers/print');
 const { config } = require('dotenv');
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
-const { welcomeMsg, restaurantMenu } = require('./messages');
-const { print } = require('./helpers/print');
+const { welcomeMsg, 
+  restaurantMenu, 
+  /*riceFlavour,*/ 
+  showInfo, 
+  meatList,
+  checkout,
+  orderPlaced,
+} = require('./messages');
 
 config();
 
@@ -15,7 +22,11 @@ const io = new Server(server);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
-})
+});
+
+
+let riceFlavour, meatType;
+const customerOrder = []
 
 
 io.on('connection', (socket) => {
@@ -30,15 +41,94 @@ io.on('connection', (socket) => {
 
   socket.on('client to server', (msg) => {
     print.info(`client message: ${msg}`);
-    // io.emit('server to client', msg); // io.emit('eventName', data);
-    if (1) {
-      const customerOrder = [];
+    // io.emit('eventName', data);
+    // io.emit('server to client', msg);
+    
+    // const customer = {
+    //   customerId: socket.id,
+    //   customerOrder: []
+    // }
+    // const customerOrder = []
+
+    if (msg === '0') {
+      print.info(`customer with id, ${socket.id}, has cancelled order`)
+      io.emit('server to client', `You have cancelled your order. Select 1 to place a new order`)
+
+    } else if (msg === '1') {
+      // const customerOrder = [];
       io.emit('server to client', restaurantMenu)
-    }
-    if (2) {
-      io.emit()
+
+    } else if (msg === '2') {
+      riceFlavour = 'Rice and Pepper Stew';
+      customerOrder.push(riceFlavour);
+      print.info(showInfo(riceFlavour, customerOrder, meatList));
+      io.emit('server to client', meatList(riceFlavour))
+
+    } else if (msg === '3') {
+      riceFlavour = 'Jollof rice and Moi-moi';
+      customerOrder.push(riceFlavour);
+      print.info(showInfo(riceFlavour, customerOrder, meatList));
+      io.emit('server to client', meatList(riceFlavour));
+
+    } else if (msg === '4') {
+      riceFlavour = 'Fried Rice and Salad';
+      customerOrder.push(riceFlavour);
+      print.info(showInfo(riceFlavour, customerOrder, meatList));
+      io.emit('server to client', meatList(riceFlavour));
+
+    } else if (msg === '5') {
+      meatType = 'CatFish';
+      customerOrder.push(meatType);
+      print.info(showInfo(meatType, customerOrder, checkout));
+      io.emit('server to client', checkout());
+
+    } else if (msg === '6') {
+      meatType = 'Chicken lap';
+      customerOrder.push(meatType);
+      print.info(showInfo(meatType, customerOrder, checkout));
+      io.emit('server to client', checkout());
+      
+    } else if (msg === '7') {
+      meatType = 'Goat meat';
+      customerOrder.push(meatType);
+      print.info(showInfo(meatType, customerOrder, checkout));
+      io.emit('server to client', checkout());
+
+    } else if (msg === '8') {
+      meatType = 'Beef';
+      customerOrder.push(meatType);
+      print.info(showInfo(meatType, customerOrder, checkout));
+      io.emit('server to client', checkout());
+
+    } else if (msg === '9') {
+      meatType = 'Assorted';
+      customerOrder.push(meatType);
+      print.info(showInfo(meatType, customerOrder, checkout));
+      io.emit('server to client', checkout());
+
+    } else if (msg === '10') {
+      // customer doesn't want meat
+      print.info(showInfo(meatType, customerOrder, checkout));
+      io.emit('server to client', checkout());
+
+    } else if (msg === '97') {
+      // Select 97 to see current order: 
+      // When a customer selects “97”, the bot should be able to return current order
+
+    } else if (msg === '98') {
+      // Order History: return all placed order
+      // Select 98 to see order history:
+      // When a customer selects “98”, the bot should be able to return all placed order
+
+    } else if (msg === '99') {
+      print.info(showInfo(meatType, customerOrder, orderPlaced));
+      io.emit('server to client', orderPlaced(riceFlavour, meatType))
+    } else {
+      io.emit('server to client', 'Please enter a valid response');
     }
   })
+
+  print.info(customerOrder);
 
 });
 
