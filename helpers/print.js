@@ -11,6 +11,17 @@ const options = {
 
 const stream = pretty()
 
-const print = pino(options, stream);
+const logger = pino(options, stream);
+
+const print = {
+  info: (data) => {
+    if (!process.env.DEBUG) return;
+    logger.info(data);
+  },
+  error: (data) => {
+    if (!process.env.DEBUG) return;
+    logger.error(data);
+  }
+}
 
 module.exports = { print }
