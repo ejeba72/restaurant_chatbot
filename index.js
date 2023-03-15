@@ -23,25 +23,21 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-let riceFlavour, meatType;
-const customerOrder = []
-
-
 io.on('connection', (socket) => {
 
-  print.info(`user with id, ${socket.id}, has been connected`);
+  print.info(`server message: user with id, ${socket.id}, has been connected`);
 
   io.emit('welcome msg', welcomeMsg);
 
   socket.on('disconnect', () => {
-    print.info(`user with id, ${socket.id}, has been disconnected`);
+    print.info(`server message: user with id, ${socket.id}, has been disconnected`);
   })
 
   socket.on('client to server', (msg) => {
     print.info(`client message: ${msg}`);
 
     if (msg === '0') {
-      print.info(`customer with id, ${socket.id}, has cancelled order`)
+      print.info(`server message: customer with id, ${socket.id}, has cancelled order`)
       io.emit('server to client', `You have cancelled your order. Select 1 to place a new order`)
 
     } else if (msg === '1') {
