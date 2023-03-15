@@ -31,10 +31,10 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      var socket = io();  // Initializing socket on the client side
+      const socket = io();  // Initializing socket on the client side
 
-      var form = document.getElementById('form');
-      var input = document.getElementById('input');
+      const form = document.getElementById('form');
+      const input = document.getElementById('input');
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -45,14 +45,14 @@
       });
 
       socket.on('welcome msg', (msg) => {
-        var item = document.createElement('li');
+        const item = document.createElement('li');
         item.textContent = msg;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight); 
       })
 
       socket.on('server to client', function(msg) {
-        var item = document.createElement('li');
+        const item = document.createElement('li');
         item.textContent = msg;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
