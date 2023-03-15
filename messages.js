@@ -20,7 +20,7 @@ module.exports = {
 
   meatList: (riceFlavour) => { 
     return `
-      What would you garnish your ${riceFlavour} with?
+      What would you like to garnish your ${riceFlavour} with?
       Select 5 for CatFish,
       6 for Chicken lap,
       7 for Goat meat, 

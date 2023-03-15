@@ -36,63 +36,90 @@ io.on('connection', (socket) => {
   socket.on('client to server', (msg) => {
     print.info(`client message: ${msg}`);
 
-    if (msg === '0') {
-      print.info(`server message: customer with id, ${socket.id}, has cancelled order`)
-      io.emit('server to client', `You have cancelled your order. Select 1 to place a new order`)
+    // switch () {}
+    // switch (key) {
+    //   case value:
+        
+    //     break;
+    
+    //   default:
+    //     break;
+    // }
 
-    } else if (msg === '1') {
-      io.emit('server to client', restaurantMenu)
+    switch (msg) {
+      case '0':
+      print.info(`server message: customer with id, ${socket.id}, has cancelled order`);
+      io.emit('server to client', `You have cancelled your order. Select 1 to place a new order`);
+      break;
 
-    } else if (msg === '2') {
+      case '1':
+      io.emit('server to client', restaurantMenu);
+      break;
+
+      case '2':
       riceFlavour = 'Rice and Pepper Stew';
-      io.emit('server to client', meatList(riceFlavour))
+      io.emit('server to client', meatList(riceFlavour));
+      break;
 
-    } else if (msg === '3') {
+      case '3':
       riceFlavour = 'Jollof rice and Moi-moi';
       io.emit('server to client', meatList(riceFlavour));
+      break;
 
-    } else if (msg === '4') {
+      case '4':
       riceFlavour = 'Fried Rice and Salad';
       io.emit('server to client', meatList(riceFlavour));
+      break;
 
-    } else if (msg === '5') {
+      case '5':
       meatType = 'CatFish';
       io.emit('server to client', checkout(meatType));
+      break;
 
-    } else if (msg === '6') {
+      case '6':
       meatType = 'Chicken lap';
       io.emit('server to client', checkout(meatType));
+      break;
       
-    } else if (msg === '7') {
+      case '7':
       meatType = 'Goat meat';
       io.emit('server to client', checkout(meatType));
+      break;
 
-    } else if (msg === '8') {
+      case '8':
       meatType = 'Beef';
       io.emit('server to client', checkout(meatType));
+      break;
 
-    } else if (msg === '9') {
+      case '9':
       meatType = 'Assorted';
       io.emit('server to client', checkout(meatType));
+      break;
 
-    } else if (msg === '10') {
+      case '10':
       // customer doesn't want meat
       io.emit('server to client', noMeat());
+      break;
 
-    } else if (msg === '97') {
+      case '97':
       // Select 97 to see current order: 
       // When a customer selects “97”, the bot should be able to return current order
+      break;
 
-    } else if (msg === '98') {
+      case '98':
       // Order History: return all placed order
       // Select 98 to see order history:
       // When a customer selects “98”, the bot should be able to return all placed order
+      break;
 
-    } else if (msg === '99') {
-      io.emit('server to client', orderPlaced(riceFlavour, meatType))
+      case '99':
+      io.emit('server to client', orderPlaced(riceFlavour, meatType));
+      break;
       
-    } else {
+      default:
       io.emit('server to client', 'Please enter a valid response');
+      break;
+
     }
   })
 });
