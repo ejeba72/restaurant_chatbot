@@ -4,41 +4,52 @@ module.exports = {
     Welcome to Mama Ebo Pepper Rice!
     Please select an option from the list:
     Select 1 to Place an order,
-    Select 0 to cancel order
+    0 to cancel order
   `,
 
   restaurantMenu: `
     Thank you for opting to place an order.
     Here is our menu:
     Select 2 for White Rice and Pepper Stew,
-    Select 3 for Jollof rice and Moi-moi,
-    Select 4 for Fried Rice and Salad,
-    Select 98 to see order history,
-    Select 97 to see current order,
-    Select 0 to cancel order
+    3 for Jollof rice and Moi-moi,
+    4 for Fried Rice and Salad,
+    98 to see order history,
+    97 to see current order,
+    0 to cancel order
   `,
 
   meatList: (riceFlavour) => { 
     return `
       What would you garnish your ${riceFlavour} with?
       Select 5 for CatFish,
-      Select 6 for Chicken lap,
-      Select 7 for Goat meat, 
-      Select 8 for Beef,
-      Select 9 for Assorted,
-      Select 10 if you don't want any of them,
-      Select 98 to see order history,
-      Select 97 to see current order,
-      Select 0 to cancel order
+      6 for Chicken lap,
+      7 for Goat meat, 
+      8 for Beef,
+      9 for Assorted,
+      10 if you don't want any of them,
+      98 to see order history,
+      97 to see current order,
+      0 to cancel order
     `
   },
 
-  checkout: () => { 
+  checkout: (meatType) => { 
     return `
+      You have picked ${meatType}.
       Select 99 to checkout,
-      Select 98 to see order history,
-      Select 97 to see current order,
-      Select 0 to cancel order
+      98 to see order history,
+      97 to see current order,
+      0 to cancel order
+    `
+  },
+
+  noMeat: () => { 
+    return `
+      You have chosen not to include meat.
+      Select 99 to checkout,
+      98 to see order history,
+      97 to see current order,
+      0 to cancel order
     `
   },
 

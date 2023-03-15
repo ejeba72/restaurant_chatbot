@@ -8,6 +8,7 @@ const {
   restaurantMenu, 
   meatList,
   checkout,
+  noMeat,
   orderPlaced,
 } = require('./messages');
 
@@ -60,27 +61,27 @@ io.on('connection', (socket) => {
 
     } else if (msg === '5') {
       meatType = 'CatFish';
-      io.emit('server to client', checkout());
+      io.emit('server to client', checkout(meatType));
 
     } else if (msg === '6') {
       meatType = 'Chicken lap';
-      io.emit('server to client', checkout());
+      io.emit('server to client', checkout(meatType));
       
     } else if (msg === '7') {
       meatType = 'Goat meat';
-      io.emit('server to client', checkout());
+      io.emit('server to client', checkout(meatType));
 
     } else if (msg === '8') {
       meatType = 'Beef';
-      io.emit('server to client', checkout());
+      io.emit('server to client', checkout(meatType));
 
     } else if (msg === '9') {
       meatType = 'Assorted';
-      io.emit('server to client', checkout());
+      io.emit('server to client', checkout(meatType));
 
     } else if (msg === '10') {
       // customer doesn't want meat
-      io.emit('server to client', checkout());
+      io.emit('server to client', noMeat());
 
     } else if (msg === '97') {
       // Select 97 to see current order: 
