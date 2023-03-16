@@ -1,4 +1,4 @@
-const { print } = require('./helpers/print');
+const { print } = require('./src/helpers/print.helpers');
 const { config } = require('dotenv');
 const express = require('express');
 const { createServer } = require('http');
@@ -10,7 +10,7 @@ const {
   checkout,
   noMeat,
   orderPlaced,
-} = require('./messages');
+} = require('./src/messages');
 
 config();
 
