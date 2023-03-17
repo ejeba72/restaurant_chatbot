@@ -1,7 +1,7 @@
 module.exports = {
   welcomeMsg: `
     Hey there!
-    Welcome to Mama Ebo Pepper Rice!
+    Welcome to Mama Osakpolor Pepper Rice! :)
     Please select an option from the list:
     Select 1 to Place an order,
     0 to cancel order

@@ -34,21 +34,21 @@
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         if (input.value) {
-          socket.emit('client to server', input.value);
+          socket.emit('client-to-server', input.value);
           input.value = '';
         }
       });
 
-      socket.on('welcome msg', (msg) => {
+      socket.on('welcome-msg', (msgFromServer) => {
         const item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = msgFromServer;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight); 
       })
 
-      socket.on('server to client', function(msg) {
+      socket.on('server-to-client', function(msgFromServer) {
         const item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = msgFromServer;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
