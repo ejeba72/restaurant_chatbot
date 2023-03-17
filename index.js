@@ -1,12 +1,18 @@
-const { print } = require('./src/print.helper');
 const { config } = require('dotenv');
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
+const { mongoDB } = require('./src/database/connection');
+const { SessionModel } = require('./src/models/session.model');
+const { OrderModel } = require('./src/models/order.model');
+const { CartModel } = require('./src/models/cart.model');
+const { devRoute } = require('./src/routes/dev.route');
+const { print } = require('./src/print.helper');
 const { welcomeMsg } = require('./src/messages');
 const chatbotController = require('./src/chatbot.controller');
 
 config();
+mongoDB();
 
 const PORT = process.env.PORT;
 const app = express();
@@ -17,8 +23,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', (socket) => {
+app.use('/dev', devRoute);  // For development purpose only
 
+io.on('connection', (socket) => {
   print.info(`server message: user with socket id, ${socket.id}, has been connected`);
 
   io.emit('welcome msg', welcomeMsg);
