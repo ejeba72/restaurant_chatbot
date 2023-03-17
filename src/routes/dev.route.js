@@ -1,3 +1,5 @@
+// PLEASE NOTE: This route is for development purpose only
+
 const { Router } = require("express");
 
 const { SessionModel } = require("../models/session.model");

@@ -7,10 +7,10 @@ const {
   orderPlaced 
 } = require('./messages');
 
-module.exports = (msg, socketId, io) => {
+module.exports = (msg, sessionId, io) => {
   switch (msg) {
     case '0':
-      print.info(`server message: customer with socket id, ${socketId}, has cancelled order`);
+      print.info(`server message: customer with session id, ${sessionId}, has cancelled order`);
       io.emit('server to client', `You have cancelled your order. Select 1 to place a new order`);
       break;
 

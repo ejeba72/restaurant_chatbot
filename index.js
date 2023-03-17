@@ -26,17 +26,18 @@ app.get('/', (req, res) => {
 app.use('/dev', devRoute);  // For development purpose only
 
 io.on('connection', (socket) => {
-  print.info(`server message: user with socket id, ${socket.id}, has been connected`);
+  const sessionId = socket.handshake.query?.sessionId || crypto.randomUUID();
+  print.info(`server message: user with socket id, ${sessionId}, has been connected`);
 
   io.emit('welcome msg', welcomeMsg);
 
   socket.on('disconnect', () => {
-    print.info(`server message: user with socket id, ${socket.id}, has been disconnected`);
+    print.info(`server message: user with socket id, ${sessionId}, has been disconnected`);
   })
 
   socket.on('client to server', (msg) => {
     print.info(`client message: ${msg}`);
-    chatbotController(msg, socket.id, io);
+    chatbotController(msg, sessionId, io);
   })
   
 });
