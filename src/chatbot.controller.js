@@ -1,4 +1,5 @@
 const { print } = require('./print.helper');
+const { MEAT, RICE } = require('./constants');
 const {
   restaurantMenu, 
   meatList,
@@ -19,43 +20,35 @@ module.exports = (msg, sessionId, io) => {
       break;
 
     case '2':
-      riceFlavour = 'White Rice and Pepper Stew';
-      io.emit('server to client', meatList(riceFlavour));
+      io.emit('server to client', meatList(RICE.pepperRice));
       break;
 
     case '3':
-      riceFlavour = 'Jollof rice and Moi-moi';
-      io.emit('server to client', meatList(riceFlavour));
+      io.emit('server to client', meatList(RICE.jollofRice));
       break;
 
     case '4':
-      riceFlavour = 'Fried Rice and Salad';
-      io.emit('server to client', meatList(riceFlavour));
+      io.emit('server to client', meatList(RICE.friedRice));
       break;
 
     case '5':
-      meatType = 'CatFish';
-      io.emit('server to client', checkout(meatType));
+      io.emit('server to client', checkout(MEAT.catfish));
       break;
 
     case '6':
-      meatType = 'Chicken lap';
-      io.emit('server to client', checkout(meatType));
+      io.emit('server to client', checkout(MEAT.chicken));
       break;
     
     case '7':
-      meatType = 'Goat meat';
-      io.emit('server to client', checkout(meatType));
+      io.emit('server to client', checkout(MEAT.goat));
       break;
 
     case '8':
-      meatType = 'Beef';
-      io.emit('server to client', checkout(meatType));
+      io.emit('server to client', checkout(MEAT.beef));
       break;
 
     case '9':
-      meatType = 'Assorted';
-      io.emit('server to client', checkout(meatType));
+      io.emit('server to client', checkout(MEAT.assorted));
       break;
 
     case '10':
@@ -77,7 +70,8 @@ module.exports = (msg, sessionId, io) => {
     break;
 
     case '99':
-      io.emit('server to client', orderPlaced(riceFlavour, meatType));
+      // io.emit('server to client', orderPlaced(riceFlavour, meatType));
+      io.emit('server to client', 'work in progress on option 99')
       break;
     
     default:
