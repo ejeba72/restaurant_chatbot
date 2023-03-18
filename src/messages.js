@@ -53,13 +53,6 @@ module.exports = {
     `
   },
 
-  // orderPlaced: (riceFlavour, meatType) => {
-  //   return `
-  //     Your order for ${riceFlavour}, garnished with ${meatType} has been placed, successfully.
-  //     Select 1 to place another order.
-  //   `
-  // },
-
   orderPlaced: (order) => {
     return `
     Your order for the following items has been placed successfully: ${order?.items?.join(', ')}.
@@ -69,13 +62,9 @@ module.exports = {
   },
   
   viewCurrentOrder: (cart) => {
-    // const message = `${((!cart || cart.items?.length < 1) && "Your current order is empty") || (`You have ordered the following items: ${cart.items.join(', ')}`)}`;
-  
     let message = 'Your current order is empty';
     if(cart?.items?.length > 0) message = `You have added the following items to your current order: ${cart.items?.join(', ')}`;
-  
     return message;
-  
   },
   
   viewOrderHistory: (orderHistory) => {

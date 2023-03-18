@@ -37,10 +37,6 @@ io.on('connection', async (socket) => {
     });
   };
 
-  // const emitter = ({ msgToClient, socketEvent }) => {
-  //   socket.emit(socketEvent, msgToClient);
-  // }
-
   const sessionId = socket.handshake.query?.sessionId || crypto.randomUUID();
   print.info(`status: user with session id, ${sessionId}, has been connected`);
 
@@ -56,11 +52,8 @@ io.on('connection', async (socket) => {
     }
   }
   else {
-    // socket.emit('welcome-msg', welcomeMsg);
     emitter({sessionId, msgToClient: welcomeMsg, socketEvent: 'welcome-msg', shouldSave: true});
   }
-
-  // socket.emit('welcome-msg', welcomeMsg);
 
   socket.on('disconnect', () => {
     print.info(`status: user with session id, ${sessionId}, has been disconnected`);
