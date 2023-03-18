@@ -24,6 +24,21 @@ app.get('/', (req, res) => {
 app.use('/dev', devRoute);  // For development purpose only
 
 io.on('connection', (socket) => {
+
+  // const emitter = ({sessionId, msgToClient, socketEvent}) => {
+  //   socket.emit(socketEvent, {
+  //     sessionId,
+  //     msgToClient
+  //   });
+  // };
+
+  const emitter = ({
+    msgToClient,
+    socketEvent
+  }) => {
+    socket.emit(socketEvent, msgToClient);
+  }
+
   const sessionId = socket.handshake.query?.sessionId || crypto.randomUUID();
   print.info(`connection: user with session id, ${sessionId}, has been connected`);
 
@@ -35,7 +50,7 @@ io.on('connection', (socket) => {
 
   socket.on('client-to-server', (msgFromClient) => {
     print.info(`user input: ${msgFromClient}`);
-    chatbotController(msgFromClient, sessionId, socket);
+    chatbotController(msgFromClient, sessionId, emitter);
   })
   
 });

@@ -8,7 +8,8 @@ const {
   orderPlaced 
 } = require('./messages');
 
-module.exports = (msgFromClient, sessionId, socket) => {
+module.exports = (msgFromClient, sessionId, emitter) => {
+  const socketEvent = 'server-to-client';
   switch (msgFromClient) {
     case '0':
       print.info(`server message: customer with session id, ${sessionId}, has cancelled order`);
@@ -16,54 +17,63 @@ module.exports = (msgFromClient, sessionId, socket) => {
       break;
 
     case '1':
-      socket.emit('server-to-client', restaurantMenu);
+      // socket.emit('server-to-client', restaurantMenu);
+      // emitter({
+      //   sessionId,
+      //   msgToClient: restaurantMenu,
+      //   socketEvent
+      // })
+      emitter({
+        msgToClient: restaurantMenu,
+        socketEvent
+      })
       break;
 
     case '2':
-      socket.emit('server-to-client', meatList(RICE.pepperRice));
+      // socket.emit('server-to-client', meatList(RICE.pepperRice));
       break;
 
     case '3':
-      socket.emit('server-to-client', meatList(RICE.jollofRice));
+      // socket.emit('server-to-client', meatList(RICE.jollofRice));
       break;
 
     case '4':
-      socket.emit('server-to-client', meatList(RICE.friedRice));
+      // socket.emit('server-to-client', meatList(RICE.friedRice));
       break;
 
     case '5':
-      socket.emit('server-to-client', checkout(MEAT.catfish));
+      // socket.emit('server-to-client', checkout(MEAT.catfish));
       break;
 
     case '6':
-      socket.emit('server-to-client', checkout(MEAT.chicken));
+      // socket.emit('server-to-client', checkout(MEAT.chicken));
       break;
     
     case '7':
-      socket.emit('server-to-client', checkout(MEAT.goat));
+      // socket.emit('server-to-client', checkout(MEAT.goat));
       break;
 
     case '8':
-      socket.emit('server-to-client', checkout(MEAT.beef));
+      // socket.emit('server-to-client', checkout(MEAT.beef));
       break;
 
     case '9':
-      socket.emit('server-to-client', checkout(MEAT.assorted));
+      // socket.emit('server-to-client', checkout(MEAT.assorted));
       break;
 
     case '10':
       // customer doesn't want meat
-      socket.emit('server-to-client', noMeat());
+      // socket.emit('server-to-client', noMeat());
       break;
 
     case '97':
-      socket.emit('server-to-client', 'work in progress on option 97');
+      // socket.emit('server-to-client', 'work in progress on option 97');
       // Select 97 to see current order: 
       // When a customer selects “97”, the bot should be able to return current order
       break;
 
     case '98':
-      socket.emit('server-to-client', 'work in progress on option 98');
+      // socket.emit('server-to-client', 'work in progress on option 98');
       // Order History: return all placed order
       // Select 98 to see order history:
       // When a customer selects “98”, the bot should be able to return all placed order
@@ -71,11 +81,11 @@ module.exports = (msgFromClient, sessionId, socket) => {
 
     case '99':
       // socket.emit('server-to-client', orderPlaced(riceFlavour, meatType));
-      socket.emit('server-to-client', 'work in progress on option 99')
+      // socket.emit('server-to-client', 'work in progress on option 99')
       break;
     
     default:
-      socket.emit('server-to-client', 'Please enter a valid response');
+      // socket.emit('server-to-client', 'Please enter a valid response');
       break;
 
   }
