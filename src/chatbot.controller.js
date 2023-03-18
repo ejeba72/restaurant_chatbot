@@ -7,6 +7,7 @@ const {
   noMeat, 
   orderPlaced 
 } = require('./messages');
+const {} = require('./db.handler');
 
 module.exports = (msgFromClient, sessionId, emitter) => {
   const socketEvent = 'server-to-client';
@@ -18,15 +19,15 @@ module.exports = (msgFromClient, sessionId, emitter) => {
 
     case '1':
       // socket.emit('server-to-client', restaurantMenu);
+      emitter({
+        socketEvent,
+        sessionId,
+        msgToClient: restaurantMenu
+      })
       // emitter({
-      //   sessionId,
       //   msgToClient: restaurantMenu,
       //   socketEvent
       // })
-      emitter({
-        msgToClient: restaurantMenu,
-        socketEvent
-      })
       break;
 
     case '2':

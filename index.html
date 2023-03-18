@@ -26,7 +26,14 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io();  // Initializing socket on the client side
+      
+      const options = {};
+      const sessionId = localStorage.getItem('sessionId');
+      if (sessionId) {
+        options.query = {sessionId};
+      }
+
+      const socket = io(options);  // Initializing socket on the client side
 
       const form = document.getElementById('form');
       const input = document.getElementById('input');
@@ -39,18 +46,26 @@
         }
       });
 
-      socket.on('welcome-msg', (msgFromServer) => {
+      socket.on('welcome-msg', ({sessionId, msgFromServer}) => {
+        if (sessionId) {
+          localStorage.setItem('sessionId', sessionId);
+        }
         const item = document.createElement('li');
         item.textContent = msgFromServer;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight); 
       })
 
-      socket.on('server-to-client', function(msgFromServer) {
+      socket.on('server-to-client', ({ sessionId, msgFromServer }) => {
         const item = document.createElement('li');
         item.textContent = msgFromServer;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on('start-new-session', ({ sessionId, msgFromServer }) => {
+        localStorage.removeItem('sessionId');
+        window.location.reload();
       });
 
     </script>

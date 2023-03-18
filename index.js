@@ -8,6 +8,7 @@ const { devRoute } = require('./src/routes/dev.route');
 const { print } = require('./src/print.helper');
 const { welcomeMsg } = require('./src/messages');
 const chatbotController = require('./src/chatbot.controller');
+const { saveChatMessage, fetchChatHistory } = require('./src/db.handler');
 
 config();
 mongoDB();
@@ -23,29 +24,45 @@ app.get('/', (req, res) => {
 
 app.use('/dev', devRoute);  // For development purpose only
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
 
-  // const emitter = ({sessionId, msgToClient, socketEvent}) => {
-  //   socket.emit(socketEvent, {
-  //     sessionId,
-  //     msgToClient
-  //   });
-  // };
+  const emitter = async ({ sessionId, msgToClient, socketEvent, shouldSave=true }) => {
+    if (shouldSave) {
+      await saveChatMessage(sessionId, socketEvent, msgToClient, 'outgoing');
+    }
+    socket.emit(socketEvent, {
+      sessionId,
+      msgFromServer: msgToClient
+    });
+  };
 
-  const emitter = ({
-    msgToClient,
-    socketEvent
-  }) => {
-    socket.emit(socketEvent, msgToClient);
-  }
+  // const emitter = ({ msgToClient, socketEvent }) => {
+  //   socket.emit(socketEvent, msgToClient);
+  // }
 
   const sessionId = socket.handshake.query?.sessionId || crypto.randomUUID();
-  print.info(`connection: user with session id, ${sessionId}, has been connected`);
+  print.info(`status: user with session id, ${sessionId}, has been connected`);
 
-  socket.emit('welcome-msg', welcomeMsg);
+  if (socket.handshake.query?.sessionId) {
+    try {
+      const msgHistory = await fetchChatHistory(sessionId);
+      msgHistory.forEach(item => {
+        emitter({sessionId, socketEvent: item.socketEvent, msgToClient: item.message, shouldSave: false});
+      });
+      print.info(msgHistory);
+    } catch (err) {
+      print.error(err.message);
+    }
+  }
+  else {
+    // socket.emit('welcome-msg', welcomeMsg);
+    emitter({sessionId, msgToClient: welcomeMsg, socketEvent: 'welcome-msg', shouldSave: true});
+  }
+
+  // socket.emit('welcome-msg', welcomeMsg);
 
   socket.on('disconnect', () => {
-    print.info(`disconnection: user with session id, ${sessionId}, has been disconnected`);
+    print.info(`status: user with session id, ${sessionId}, has been disconnected`);
   })
 
   socket.on('client-to-server', (msgFromClient) => {
