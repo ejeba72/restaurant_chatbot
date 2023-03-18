@@ -66,8 +66,9 @@ io.on('connection', async (socket) => {
     print.info(`status: user with session id, ${sessionId}, has been disconnected`);
   })
 
-  socket.on('client-to-server', (msgFromClient) => {
+  socket.on('client-to-server', async (msgFromClient) => {
     print.info(`user input: ${msgFromClient}`);
+    await saveChatMessage(sessionId, 'client-to-server', msgFromClient, 'incoming');
     chatbotController(msgFromClient, sessionId, emitter);
   })
   

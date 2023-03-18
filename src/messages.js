@@ -53,10 +53,34 @@ module.exports = {
     `
   },
 
-  orderPlaced: (riceFlavour, meatType) => {
+  // orderPlaced: (riceFlavour, meatType) => {
+  //   return `
+  //     Your order for ${riceFlavour}, garnished with ${meatType} has been placed, successfully.
+  //     Select 1 to place another order.
+  //   `
+  // },
+
+  orderPlaced: (order) => {
     return `
-      Your order for ${riceFlavour}, garnished with ${meatType} has been placed, successfully.
-      Select 1 to place another order.
+    Your order for the following items has been placed successfully: ${order?.items?.join(', ')}.
+  
+    Select 1 to place another order.
     `
   },
+  
+  viewCurrentOrder: (cart) => {
+    // const message = `${((!cart || cart.items?.length < 1) && "Your current order is empty") || (`You have ordered the following items: ${cart.items.join(', ')}`)}`;
+  
+    let message = 'Your current order is empty';
+    if(cart?.items?.length > 0) message = `You have added the following items to your current order: ${cart.items?.join(', ')}`;
+  
+    return message;
+  
+  },
+  
+  viewOrderHistory: (orderHistory) => {
+    if(orderHistory?.length < 1) return `You order history is empty`;
+    const orderHistoryString = orderHistory.map(order => order.items.join(', ')).join(', ');
+    return `You ordered the following items: ${orderHistoryString}`;
+  }
 }
