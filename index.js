@@ -30,6 +30,7 @@ io.on('connection', async (socket) => {
     if (shouldSave) {
       await saveChatMessage(sessionId, socketEvent, msgToClient, 'outgoing');
     }
+    print.info('server has emitted data to the client')
     socket.emit(socketEvent, {
       sessionId,
       msgFromServer: msgToClient
