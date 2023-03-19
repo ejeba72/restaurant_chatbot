@@ -152,6 +152,7 @@ module.exports = async (msgFromClient, sessionId, emitter) => {
         sessionId,
         msgToClient: 'Starting new session'
       });
+      break;
     
     default:
       emitter({
